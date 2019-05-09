@@ -5,6 +5,7 @@ function Node(id, x, y) {
     this.id = id;
     this.x = x;
     this.y = y;
+    this.controller = {};
 }
 
 Node.prototype = {
@@ -76,7 +77,7 @@ nodeFn.ProgrammedController = function(game, node, program) {
     var programTurn = 0;
 
     function nextMove() {
-        
+
         result = {
             x: program[programTurn].x,
             y: program[programTurn].y
@@ -86,12 +87,10 @@ nodeFn.ProgrammedController = function(game, node, program) {
         return result;
     };
 
-    node.controller = {
-        move: function() {
+    node.controller.move = function() {
             var move = nextMove();
         
             game.moveNode(node, move.x, move.y);
-        }
     };
 
     return node.controller;
