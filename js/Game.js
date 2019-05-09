@@ -4,6 +4,7 @@ function Game(width, height){
 };
 
 Game.prototype = {
+    tiles: [],
     entities: [],
     width: 10,
     height: 10,
@@ -13,7 +14,27 @@ Game.prototype = {
     isGameEnded: function() {}
 };
 
-Game.prototype.init = function() {
+Game.prototype.init = function(tileData, entityData) {
+    for(var y = 0; y < this.height; y++) {
+        var currentRow = [];
+
+        for (var x = 0; x < this.width; x++) {
+            var tileId = tileData[y][x];
+
+            currentRow.push(new GameTile(
+                tileId, x, y, 
+                isTileTraversable(tileId)
+            ));
+        }   
+        this.tiles.push(currentRow); 
+    }
+
+    entityData.forEach(function(entity) {
+        this.entities.push(
+            new GameEntity(
+                entity.id, entity.x, entity.y)
+        );
+    });
 }
 
 Game.prototype.update = function() {
@@ -71,4 +92,8 @@ Game.prototype.moveNode = function(node, x, y) {
 
         this.validateMove(node);
     }
+}
+
+Game.prototype.replaceTile = function() {
+
 }

@@ -2,6 +2,7 @@ var {Given, When, Then} = require("cucumber");
 var jsload = require("../../jsload.js");
 var assert = require("assert");
 
+eval(jsload.include("js/GameTile.js"));
 eval(jsload.include("js/GameEntity.js"));
 eval(jsload.include("js/Game.js"));
 
@@ -14,7 +15,16 @@ function isAlly(entity) {
 }
 
 Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
+    var tiles = [
+        0, 0, 0,
+        0, 0, 0,
+        0, 0, 0
+    ];
+    var entities = [];
+    
     game = new Game(Number(x), Number(y));
+    game.init(tiles, entities);
+
     assert.notEqual(game, undefined);
 });
 
