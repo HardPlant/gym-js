@@ -72,33 +72,18 @@ nodeFn.RandomController = function(game, node) {
     return node.controller;
 }
 
-nodeFn.PlusController = function(game, node) {
+nodeFn.ProgrammedController = function(game, node, program) {
+    var programTurn = 0;
 
     function nextMove() {
-        return {
-            x: 0,
-            y: 1
-        }
-    };
-
-    node.controller = {
-        move: function() {
-            var move = nextMove();
         
-            game.moveNode(node, move.x, move.y);
+        result = {
+            x: program[programTurn].x,
+            y: program[programTurn].y
         }
-    };
+        programTurn++;
 
-    return node.controller;
-}
-
-nodeFn.MinusController = function(game, node) {
-
-    function nextMove() {
-        return {
-            x: 0,
-            y: -1
-        }
+        return result;
     };
 
     node.controller = {

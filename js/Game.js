@@ -10,10 +10,7 @@ Game.prototype = {
     width: 10,
     height: 10,
     turn: 0,
-    
-    playerTurn: function(){},
-    enemyTurn: function(){},
-    
+
     update: function(){},
     isGameEnded: function() {}
 };
@@ -23,29 +20,25 @@ Game.prototype.init = function() {
 }
 
 Game.prototype.update = function() {
-    this.playerTurn();
-    this.enemyTurn();
-}
-
-Game.prototype.playerTurn = function() {
     var players = this.entities.filter(function(node) {
         return !(node.isEnemy());
     });
-
-    players.forEach(function(node) {
-        node.controller.move();
-    });
-
-};
-
-Game.prototype.enemyTurn = function() {
     var enemies = this.entities.filter(function(node) {
         return node.isEnemy();
     });
-    
-    enemies.forEach(function(node) {
+
+    this.processTurn(players);
+
+    this.processTurn(enemies);
+}
+
+Game.prototype.processTurn = function(nodes) {
+
+    nodes.forEach(function(node) {
         node.controller.move();
     });
+
+    this.turn++;
 };
 
 Game.prototype.isUnaccepableMove = function(node, x, y) {
@@ -68,15 +61,17 @@ Game.prototype.validateMove = function(node) {
 
     if (this.width <= node.x) node.x = this.width - 1;
     if (this.height <= node.y) node.y = this.height - 1;
+
 };
 
 Game.prototype.moveNode = function(node, x, y) {
+  
     if (this.isUnaccepableMove(node, x, y)) {
         return false;
     } else {
         node.x += x;
         node.y += y;
-        
+
         this.validateMove(node);
     }
 }

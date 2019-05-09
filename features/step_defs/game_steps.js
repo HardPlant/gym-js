@@ -14,7 +14,7 @@ function isAlly(entity) {
 }
 
 Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
-    game = new Game(x, y);
+    game = new Game(Number(x), Number(y));
     assert.notEqual(game, undefined);
 });
 
@@ -32,8 +32,6 @@ Given('{string}이 {string}, {string} 위치에 배치된다', function (entity,
 
 Given('{string}은 랜덤하게 움직인다', function (node) {
     var node = lastNode;
-
-    console.log(nodeFn.RandomController(game, node));
 
     assert.notEqual(node.controller, undefined);
     
@@ -65,9 +63,23 @@ Then('{string}이 {string}, {string} 위치에 있다', function (type, x, y) {
 });
 
 Given('아군은 x:1로 움직인다', function () {
-    nodeFn.PlusController(game, game.entities[0]);
+    var program = [
+        {x:1, y:0},
+        {x:1, y:0},
+        {x:1, y:0},
+    ]
+    nodeFn.ProgrammedController(game, game.entities[0], program);
 });
 
 Given('적군은 y:-1 움직인다', function () {
-    nodeFn.MinusController(game, game.entities[1]);
+    var program = [
+        {x:0, y:-1},
+        {x:0, y:-1},
+        {x:0, y:-1},
+    ]
+    nodeFn.ProgrammedController(game, game.entities[1], program);
+});
+
+Then('{string} 턴이 경과한다', function (turn) {
+    assert.equal(game.turn, Number(turn));
 });
