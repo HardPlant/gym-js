@@ -1,32 +1,32 @@
+var nodeFn = {};
+var type_limit = 10000;
 
-Node = function(id, x, y) {
+function Node(id, x, y) {
     this.id = id;
     this.x = x;
     this.y = y;
 }
 
 Node.prototype = {
-    id = 0,
+    id: 1,
     x: 0,
     y: 0,
     range: 1,
     hp: 1,
-    isEnemy: (id)=>{return id>10000;},
-    makeEnemy: ()=>{
-        if (!this.isEnemy(this))
-            this.id += 10000;
-        return this;
+    isEnemy: function() {
+        return this.id >= type_limit;
     }
 };
-Node.prototype.attack = function() {
-    _attack(game, this, this.range, this.x, this.y);
+
+nodeFn.attack = function (game, node) {
+    _attack(game, node, node.range, node.x, node.y);
 
     function _attack(game, node, range, x, y) {
         if (x < 0 || y < 0) return;
         if (x > game.width || y > game.height) return;
 
-        if (typeof(game.entities[x][y]) !== undefined) {
-            if (this.isEnemy ^ game.entities[x][y]) {
+        if (isNodeExists()) {
+            if (node.isEnemy ^ game.entities[x][y]) {
                 game.entities[x][y] = 0;
             }
         }
@@ -37,3 +37,77 @@ Node.prototype.attack = function() {
         _attack(game, range-1, x, y+1);
     }
 };
+
+nodeFn.getRandom = function(isFoe) {
+
+}
+
+nodeFn.makeFoe = function(node) {
+    if (!node.isEnemy()) {
+        node.id += type_limit;
+    }
+}
+
+nodeFn.isExist = function(game, x, y) {
+
+}
+
+nodeFn.RandomController = function(game, node) {
+
+    function nextMove() {
+        return {
+            x: Math.random() < 0.5 ? -1 : 1,
+            y: Math.random() < 0.5 ? -1 : 1
+        }
+    };
+
+    node.controller = {
+        move: function() {
+            var move = nextMove();
+        
+            game.moveNode(node, move.x, move.y);
+        }
+    };
+
+    return node.controller;
+}
+
+nodeFn.PlusController = function(game, node) {
+
+    function nextMove() {
+        return {
+            x: 0,
+            y: 1
+        }
+    };
+
+    node.controller = {
+        move: function() {
+            var move = nextMove();
+        
+            game.moveNode(node, move.x, move.y);
+        }
+    };
+
+    return node.controller;
+}
+
+nodeFn.MinusController = function(game, node) {
+
+    function nextMove() {
+        return {
+            x: 0,
+            y: -1
+        }
+    };
+
+    node.controller = {
+        move: function() {
+            var move = nextMove();
+        
+            game.moveNode(node, move.x, move.y);
+        }
+    };
+
+    return node.controller;
+}
