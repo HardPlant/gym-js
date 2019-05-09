@@ -1,14 +1,22 @@
 
-Node = function(x, y) {
+Node = function(id, x, y) {
+    this.id = id;
     this.x = x;
     this.y = y;
 }
+
 Node.prototype = {
+    id = 0,
     x: 0,
     y: 0,
     range: 1,
     hp: 1,
-    isEnemy: false
+    isEnemy: (id)=>{return id>10000;},
+    makeEnemy: ()=>{
+        if (!this.isEnemy(this))
+            this.id += 10000;
+        return this;
+    }
 };
 Node.prototype.attack = function() {
     _attack(game, this, this.range, this.x, this.y);

@@ -3,8 +3,11 @@ var include = require("jsload");
 include("js/Game.js");
 include("js/Node.js");
 
-Given('{string} * {string} 게임판이 초기화된다', function (string, string2) {
-    // Write code here that turns the phrase above into concrete actions
+var game;
+
+Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
+    game = new Game(x, y);
+    
     return 'pending';
 });
 

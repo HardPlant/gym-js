@@ -1,3 +1,5 @@
+assert(Node !== undefined);
+
 function Game(width, height){
     this.width = width || this.width;
     this.height = height || this.height;
