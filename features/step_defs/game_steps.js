@@ -17,7 +17,7 @@ function isAlly(entity) {
 Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
     var tiles = [
         0, 0, 0,
-        0, 0, 0,
+        0, 1, 0,
         0, 0, 0
     ];
     var entities = [];
@@ -26,6 +26,8 @@ Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
     game.init(tiles, entities);
 
     assert.notEqual(game, undefined);
+    assert.equal(game.tiles[0][0].id, 0);
+    assert.equal(game.tiles[1][1].id, 1);
 });
 
 Given('{string}이 {string}, {string} 위치에 배치된다', function (entity, x, y) {

@@ -19,7 +19,7 @@ Game.prototype.init = function(tileData, entityData) {
         var currentRow = [];
 
         for (var x = 0; x < this.width; x++) {
-            var tileId = tileData[y][x];
+            var tileId = tileData[y*this.height + x];
 
             currentRow.push(new GameTile(
                 tileId, x, y, 
