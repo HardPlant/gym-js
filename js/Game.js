@@ -1,5 +1,3 @@
-assert(Node !== undefined);
-
 function Game(width, height){
     this.width = width || this.width;
     this.height = height || this.height;
@@ -16,7 +14,6 @@ Game.prototype = {
 };
 
 Game.prototype.init = function() {
-    var player = new Node;
 }
 
 Game.prototype.update = function() {

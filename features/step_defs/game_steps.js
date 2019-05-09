@@ -2,7 +2,7 @@ var {Given, When, Then} = require("cucumber");
 var jsload = require("../../jsload.js");
 var assert = require("assert");
 
-eval(jsload.include("js/Node.js"));
+eval(jsload.include("js/GameEntity.js"));
 eval(jsload.include("js/Game.js"));
 
 var game;
@@ -21,7 +21,7 @@ Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
 Given('{string}이 {string}, {string} 위치에 배치된다', function (entity, x, y) {
     assert.notEqual(game.entities, undefined);
     var id = 0;
-    lastNode = new Node(id, Number(x), Number(y));
+    lastNode = new GameEntity(id, Number(x), Number(y));
 
     if (!isAlly(entity)) {
         nodeFn.makeFoe(lastNode);

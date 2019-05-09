@@ -1,19 +1,21 @@
 var nodeFn = {};
 var type_limit = 10000;
 
-function Node(id, x, y) {
+function GameEntity(id, x, y) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.controller = {};
 }
 
-Node.prototype = {
+GameEntity.prototype = {
     id: 1,
     x: 0,
     y: 0,
     range: 1,
     hp: 1,
+    moveCount: 0,
+    attackCount: 0,
     isEnemy: function() {
         return this.id >= type_limit;
     }
