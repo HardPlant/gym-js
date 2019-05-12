@@ -44,10 +44,12 @@ def bot_play(mainDQN):
 
 def get_copy_var_ops(*, dest_scope_name="target", src_scope_name="main"):
     op_holder = []
-    src_vars = tf.get_collection()
-    dest_vars = tf.get_collection()
+    src_vars = tf.get_collection(
+        tf.GraphKeys.TRAINABLE_VARIABLES, scope=src_scope_name)
+    dest_vars = tf.get_collection(
+        tf.GraphKeys.TRAINABLE_VARIABLES, scope=dest_scope_name)
 
-    for src_var, dest_var(src_vars, dest_vars):
+    for src_var, dest_var in (src_vars, dest_vars):
         op_holder.append(dest_var.assign(src_var.value()))
     
     return op_holder
