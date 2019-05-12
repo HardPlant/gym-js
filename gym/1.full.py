@@ -33,12 +33,26 @@ for i in range(num_episodes):
     done = False
 
     while not done:
-        action = rargmax(Q[state, :])
+        
+        # e - greedy
+        e = 0.1 / ((i // 100) + 1)
+        if np.random.rand(1) < e:
+            action = env.action_space.sample()
+        else:
+            action = rargmax(Q[state, :])
+
+        ## OR
+
+        # decaying
+        #action = np.argmax(Q[state, :] + np.random.randn(1, env.action_space.n) / ( i + 1))
+        
         #state, reward, done, info
         new_state, reward, done, _ = env.step(action)
 
+        # discounted future reward
+        dis = 0.99
         # Q table 추가
-        Q[state, action] = reward + np.max(Q[new_state, :])
+        Q[state, action] = reward + dis * np.max(Q[new_state, :])
 
         rAll += reward
         state = new_state
