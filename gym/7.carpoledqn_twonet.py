@@ -43,7 +43,14 @@ def bot_play(mainDQN):
             break
 
 def get_copy_var_ops(*, dest_scope_name="target", src_scope_name="main"):
-    pass
+    op_holder = []
+    src_vars = tf.get_collection()
+    dest_vars = tf.get_collection()
+
+    for src_var, dest_var(src_vars, dest_vars):
+        op_holder.append(dest_var.assign(src_var.value()))
+    
+    return op_holder
 
 def main():
     max_episodes = 5000
