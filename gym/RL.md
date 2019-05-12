@@ -199,3 +199,18 @@ target Y <= Q(theta[1])
 Y => theta[0]
 
 n step reset theta[1] = theta[0]
+
+### 2013
+
+* Net-Build-Init
+
+* Env
+    loop:
+        a = e-greedy.. # a = action
+        r = env.step(a) # r= reward
+
+        buff.append(r)
+
+        if loop.circle(10):
+            minibatch(buff):
+                train

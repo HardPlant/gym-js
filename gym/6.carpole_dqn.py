@@ -53,3 +53,33 @@ class DQN:
             self._X: x_stack,
             self._Y: y_stack
         })
+
+replay_buffer = deque()
+
+# save experience
+replay_buffer.append((state, action, reward, next_state, done))
+if len(replay_buffer) > REPLAY_MEMORY:
+    replay_buffer.popleft()
+
+if episode % 10 == 1:
+    for _ in range(50):
+        # minibatch
+        minibatch = random.sample(replay_buffer, 10)
+        loss, _ = simple_replay_train(mainDQN, minibatch)
+
+def simple_replay_train(DQN, train_batch):
+    x_stack = np.empty(0).reshape(0, DQN.input_size)
+    y_stack = np.empty(0).reshape(0, DQN.output_size)
+
+    for state, action, reward, next_state, done in train_batch:
+        Q = DQN.predict(state) # return act
+
+        if done:
+            Q[0, action] = reward
+        else:
+            Q[0, action] = reward + dis * np.max(DQN.predict(next_state))
+        
+        x_stack = np.vstack([y_stack, Q])
+        y_stack = np.vstack([x_state, state])
+    
+    return DQN.update(x_stack, y_stack)
