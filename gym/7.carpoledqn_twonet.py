@@ -42,6 +42,9 @@ def bot_play(mainDQN):
             print("Total score: {}".format(reward_sum))
             break
 
+def get_copy_var_ops(*, dest_scope_name="target", src_scope_name="main"):
+    pass
+
 def main():
     max_episodes = 5000
 
@@ -51,6 +54,10 @@ def main():
         mainDQN = dqn.DQN(sess, input_size, output_size, name="main")
         targetDQN = dqn.DQN(sess, input_size, output_size, name="target")
         tf.global_variables_initializer().run()
+
+        copy_ops = get_copy_var_ops(dest_scope_name="target", src_scope_name="main")
+
+        sess.run(copy_ops) # targetDQN <= mainDQN
 
         for episode in range(max_episodes):
             e = 1. / ((episode // 10) + 1)
