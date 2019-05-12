@@ -36,4 +36,4 @@ if done:
 else:
     Qs1 = sess.run(Qpred, feed_dict={X: one_hot(s1)})
 
-    Qs[0, a] = reward + dis * np.max(Qs1)]
+    Qs[0, a] = reward + dis * np.max(Qs1)

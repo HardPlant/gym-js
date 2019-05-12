@@ -39,6 +39,7 @@ train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(
 
 # 모든 결과의 저장
 rList = []
+num_episodes = 2000
 
 with tf.Session() as sess:
     sess.run(init)
@@ -49,36 +50,36 @@ with tf.Session() as sess:
         rAll = 0
         done = False
 
-    while not done:
-        
-        Qs = sess.run(Qpred, feed_dict={X: one_hot(s)})
-        
-        if np.random.rand(1) < e:
-            a = env.action_space.sample()
-        else:
-            a = np.argmax(Qs)
+        while not done:
+            
+            Qs = sess.run(Qpred, feed_dict={X: one_hot(s)})
+            
+            if np.random.rand(1) < e:
+                a = env.action_space.sample()
+            else:
+                a = np.argmax(Qs)
 
-        # step
-        s1, reward, done, _ = env.step(a)
+            # step
+            s1, reward, done, _ = env.step(a)
 
-        
-        # discounted future reward
-        dis = 0.99
-        # Q table 추가
-        #Q[state, action] = reward + dis * np.max(Q[new_state, :])
-        if done:
-            Qs[0, a] = reward
-        else:
-            Qs1 = sess.run(Qpred, feed_dict={X: one_hot(s1)})
+            
+            # discounted future reward
+            dis = 0.99
+            # Q table 추가
+            #Q[state, action] = reward + dis * np.max(Q[new_state, :])
+            if done:
+                Qs[0, a] = reward
+            else:
+                Qs1 = sess.run(Qpred, feed_dict={X: one_hot(s1)})
 
-            Qs[0, a] = reward + dis * np.max(Qs1)]
+                Qs[0, a] = reward + dis * np.max(Qs1)
 
-        sess.run(train, feed_dict={X:one_hot(s), Y: Qs})
+            sess.run(train, feed_dict={X:one_hot(s), Y: Qs})
 
-        rAll += reward
-        s = s1
+            rAll += reward
+            s = s1
 
-    rList.append(rAll)
+        rList.append(rAll)
 
 #print
 
