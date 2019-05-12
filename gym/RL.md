@@ -81,7 +81,7 @@ diverges => Deep, Replay, Separaed Network (DQN)
 
 ## 입력과 출력 설계
 
-One-hot .. 1자리만 사용함
+One-hot .. 1자리만 사용함 , pi = one_hot된 s
 
 one_hot(x)=>{return np.identity(16)[x:x,1]}
 
