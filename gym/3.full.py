@@ -51,8 +51,13 @@ with tf.Session() as sess:
 
     while not done:
         
-        Q[state, action] = (1-learning_rate) * Q[state, action] \
-            + learning_rate * (reward + dis * np.max(Q[new_state, :]))
+        Qs = sess.run(Qpred, feed_dict={X: one_hot(s)})
+        
+        if np.random.rand(1) < e:
+            a = env.action_space.sample()
+        else:
+            a = np.argmax(Qs)
+
         # e - greedy
         # if np.random.rand(1) < e:
         #     action = env.action_space.sample()
