@@ -30,6 +30,23 @@ def simple_replay_train(DQN, train_batch):
     
     return DQN.update(x_stack, y_stack)
 
+def simple_replay_train(mainDQN, targetDQN, train_batch):
+    x_stack = np.empty(0).reshape(0, DQN.input_size)
+    y_stack = np.empty(0).reshape(0, DQN.output_size)
+
+    for state, action, reward, next_state, done in train_batch:
+        Q = mainDQN.predict(state) # return act
+
+        if done:
+            Q[0, action] = reward
+        else:
+            Q[0, action] = reward + dis * np.max(targetDQN.predict(next_state))
+        
+        y_stack = np.vstack([y_stack, Q])
+        x_stack = np.vstack([x_stack, state])
+    
+    return mainDQN.update(x_stack, y_stack)
+
 def bot_play(mainDQN):
     s = env.reset()
     reward_sum = 0
