@@ -159,3 +159,43 @@ Qs[0, a] = reward + dis * np.max(Qs1)
 
 sess.run(train, feed_dict={X: x, Y: Qs})
 ```
+
+## Not work
+
+* 4 weight
+
+* diverges
+
+Correlations between samples
+
+인접 데이터간 상관관계가 있어 적합이 제대로 되지 않음
+
+Non-staionary target
+
+Qpred, Target(y)가 같은 네트워크를 사용함
+Pred를 수정했더니 Target도 움직임
+
+## DQN
+
+* Go Deep
+
+* Capture/Replay
+
+상태 => 버퍼에 저장 => 랜덤하게 뽑아서 학습
+
+```
+store (pi, action, reward, pi') = D
+random minibatch from D
+```
+
+* Create New network
+
+1) s => Ws
+2) s => Y
+
+3) copy (Ws, Y)
+
+target Y <= Q(theta[1])
+Y => theta[0]
+
+n step reset theta[1] = theta[0]
