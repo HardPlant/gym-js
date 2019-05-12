@@ -49,6 +49,7 @@ with tf.Session() as sess:
         e = 1. / ((i // 50) + 10)
         rAll = 0
         done = False
+        local_loss = []
 
         while not done:
             
@@ -83,10 +84,7 @@ with tf.Session() as sess:
 
 #print
 
-print("Success rate: " + str(sum(rList)/num_episodes))
-print("Final Q-Table Values")
-print("Left Down Right Up")
-print(Q)
+print("Successful episodes" + str(sum(rList)/num_episodes) + "%")
 
 plt.bar(range(len(rList)), rList, color="blue")
 plt.show()
