@@ -15,7 +15,7 @@ def rargmax(vector):
 
 def one_hot(x):
     return np.identify(16)[x:x + 1]
-    
+
 register(
     id="FrozenLake-v3",
     entry_point="gym.envs.toy_text:FrozenLakeEnv",
@@ -37,24 +37,21 @@ Y = tf.placeholder(shape=[1, output_size], dtype=tf.float32)
 loss = tf.reduce_sum(tf.square(Y - Qpred))
 train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
 
-
-observation = env.reset()
-
-# table to wzro
-Q = np.zeros([env.observation_space.n, env.action_space.n])
-num_episodes = 2000
-
 # 모든 결과의 저장
 rList = []
-for i in range(num_episodes):
-    state = env.reset()
-    rAll = 0
-    done = False
+
+with tf.Session() as sess:
+    sess.run(init)
+
+    for i in range(num_episodes):
+        s = env.reset()
+        e = 1. / ((i // 50) + 10)
+        rAll = 0
+        done = False
 
     while not done:
         
         # e - greedy
-        # e = 0.1 / ((i // 100) + 1)
         # if np.random.rand(1) < e:
         #     action = env.action_space.sample()
         # else:
