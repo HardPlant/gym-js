@@ -78,8 +78,8 @@ def main():
                 step_count += 1
                 if step_count > 10000:
                     break
+
             print ("Episode: {} steps: {}".format(episode, step_count))
-            
             if step_count > 10000:
                 pass
 
@@ -88,7 +88,7 @@ def main():
                     # minibatch
                     minibatch = random.sample(replay_buffer, 10)
                     loss, _ = simple_replay_train(mainDQN, minibatch)
-                print("loss: ", loss)
+                    print("loss: ", loss)
     
         bot_play(mainDQN)
 
