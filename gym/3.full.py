@@ -51,6 +51,8 @@ with tf.Session() as sess:
 
     while not done:
         
+        Q[state, action] = (1-learning_rate) * Q[state, action] \
+            + learning_rate * (reward + dis * np.max(Q[new_state, :]))
         # e - greedy
         # if np.random.rand(1) < e:
         #     action = env.action_space.sample()
@@ -71,8 +73,6 @@ with tf.Session() as sess:
         #Q[state, action] = reward + dis * np.max(Q[new_state, :])
 
         learning_rate = 0.85
-        Q[state, action] = (1-learning_rate) * Q[state, action] \
-            + learning_rate * (reward + dis * np.max(Q[new_state, :]))
 
         rAll += reward
         state = new_state
