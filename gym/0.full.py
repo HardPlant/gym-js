@@ -53,4 +53,4 @@ print("Left Down Right Up")
 print(Q)
 
 plt.bar(range(len(rList)), rList, color="blue")
-plt.show
+plt.show()
