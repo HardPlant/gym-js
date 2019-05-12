@@ -30,9 +30,9 @@ def simple_replay_train(DQN, train_batch):
     
     return DQN.update(x_stack, y_stack)
 
-def simple_replay_train(mainDQN, targetDQN, train_batch):
-    x_stack = np.empty(0).reshape(0, DQN.input_size)
-    y_stack = np.empty(0).reshape(0, DQN.output_size)
+def replay_train(mainDQN, targetDQN, train_batch):
+    x_stack = np.empty(0).reshape(0, mainDQN.input_size)
+    y_stack = np.empty(0).reshape(0, mainDQN.output_size)
 
     for state, action, reward, next_state, done in train_batch:
         Q = mainDQN.predict(state) # return act
@@ -121,8 +121,9 @@ def main():
                 for _ in range(50):
                     # minibatch
                     minibatch = random.sample(replay_buffer, 10)
-                    loss, _ = simple_replay_train(mainDQN, minibatch)
-                    print("loss: ", loss)
+                    loss, _ = replay_train(mainDQN, targetDQN, minibatch)
+                print("loss: ", loss)
+                sess.run(copy_ops)
     
         bot_play(mainDQN)
 
