@@ -61,15 +61,17 @@ with tf.Session() as sess:
         # step
         s1, reward, done, _ = env.step(a)
 
+        
         # discounted future reward
         dis = 0.99
         # Q table 추가
         #Q[state, action] = reward + dis * np.max(Q[new_state, :])
+        if done:
+            Qs[0, a] = reward
+        else:
+            Qs1 = sess.run(Qpred, feed_dict={X: one_hot(s1)})
 
-        learning_rate = 0.85
-
-        rAll += reward
-        state = new_state
+            Qs[0, a = reward + dis * np.max(Qs1)]
     
     rList.append(rAll)
 
