@@ -1,5 +1,5 @@
 import tensorflow as tf
-
+import numpy as np
 class DQN:
     def __init__(self, session, input_size, output_size, name="main"):
         self.session = session
@@ -22,7 +22,7 @@ class DQN:
             layer1 = tf.nn.tanh(tf.matmul(self._X, W1))
             
             # Second
-            W2 = tf.get_variable("W1", shape=[h_size, self.output_size]
+            W2 = tf.get_variable("W2", shape=[h_size, self.output_size]
                 , initializer=tf.contrib.layers.xavier_initializer())
             
             # Q pred
