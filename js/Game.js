@@ -62,6 +62,8 @@ Game.prototype.processTurn = function(nodes) {
 Game.prototype.isUnaccepableMove = function(node, x, y) {
     var isUnacceptable = false;
 
+    if (!isTileTraversable(this.tiles[x][y])) return false;
+
     this.entities.forEach(function(item) {
         if (item === node) return;
 
@@ -94,6 +96,14 @@ Game.prototype.moveNode = function(node, x, y) {
     }
 }
 
-Game.prototype.replaceTile = function() {
+Game.prototype.getTileIndexByXY = function(x, y) {
+    return y * this.height + x;
+}
 
+Game.prototype.replaceTile = function(x, y, id) {
+    var tile = this.tiles[x][y];
+    
+    tile.id = id;
+
+    console.log(this.tiles);
 }

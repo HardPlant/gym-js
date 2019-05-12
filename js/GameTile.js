@@ -1,15 +1,15 @@
-function GameTile(id, x, y, isPassable) {
+function GameTile(id, x, y) {
     this.id = id;
     this.x = x;
     this.y = y;
-    this.isPassable = isPassable;
 }
 
-function isTileTraversable(id) {
+function isTileTraversable(gameTile) {
     var passTable = {
         0 : true,
         1 : false
     };
 
-    return passTable[id];
+    return passTable[gameTile.id];
 }
+

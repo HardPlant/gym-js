@@ -27,7 +27,10 @@ Given('{string} * {string} 게임판이 초기화된다', function (x, y) {
 
     assert.notEqual(game, undefined);
     assert.equal(game.tiles[0][0].id, 0);
+    assert.equal(isTileTraversable(game.tiles[0][0]), true);
+
     assert.equal(game.tiles[1][1].id, 1);
+    assert.equal(isTileTraversable(game.tiles[1][1]), false);
 });
 
 Given('{string}이 {string}, {string} 위치에 배치된다', function (entity, x, y) {
@@ -94,4 +97,10 @@ Given('적군은 y:-1 움직인다', function () {
 
 Then('{string} 턴이 경과한다', function (turn) {
     assert.equal(game.turn, Number(turn));
+});
+
+When('{string}, {string} 타일을 아이디 {string}로 바꾼다', function (x, y, id) {
+    game.replaceTile(Number(x), Number(y), Number(id));
+
+    assert.equal(game.tiles[x][y].id, Number(id));
 });
