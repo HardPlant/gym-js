@@ -17,7 +17,7 @@ def one_hot(x):
     return np.identity(16)[x:x + 1]
 
 register(
-    id="FrozenLake-v3",
+    id="FrozenLake-v0",
     entry_point="gym.envs.toy_text:FrozenLakeEnv",
     kwargs={"map_name" : "4x4"}
 )
@@ -70,8 +70,8 @@ with tf.Session() as sess:
             dis = 0.99
             # Q table 추가
             #Q[state, action] = reward + dis * np.max(Q[new_state, :])
-            if done:
-                Qs[0, a] = reward
+            if done: 
+                Qs[0, a] = reward # array shape .. [[0, 2, ...]]1*16 => []*16x4=>[[a1, a2, a3, a4]]1*4
             else:
                 Qs1 = sess.run(Qpred, feed_dict={X: one_hot(s1)})
 

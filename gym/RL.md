@@ -90,4 +90,72 @@ np.identify(16)[s1:s1 + 1] # index, [16][1]
 
 in[16] => out[4]
 
+### Stable?
 
+결과가 그렇게 좋지는 않음
+
+* Minibatch
+
+## CartPole
+
+```
+import gym
+env = gym.make('CartPole-v0')
+env.reset()
+
+for _ in range(1000):
+    env.render()
+    env.step(env.action_space.sample())
+```
+
+### NN의 장점
+
+input에 대한 분석 (ob에 대한 분석)을 하지 않아도 됨
+
+```py
+s1, reward, done, _ = env.step(a)
+if done:
+    Qs[0, a] = -100 # 넘어지게 한 행동에 대한 처벌
+else:
+    x1 = np.reshape(s1, [1, input_size]) # one-hot 불가, 1x4 input으로 만들어줌
+    Qs1 = sess.run(Qpred, feed_dict={X:x1})
+    Qs[0, a] = reward + dis * np.max(Qs1)
+```
+
+
+### Network
+
+s (length=4) => Ws (action = 2)
+
+```py
+input_size = env.observation_space.shape[0] # 4
+output_size = env.action_space.n            # 2
+
+X = tf.placeholder(tf.float32, [None, input_size], name = "input_x")
+
+# First layer of weights
+W1 = tf.get_variable("W1", shape=[input_size, output_size], 
+                        initializer = tf.contrib.layers.xavier_initializer())
+
+Qpred = tf.matmul(X, W1)
+```
+
+### Training
+
+```py
+Qpred = tf.matmul(X, W1)
+
+# parts of the network => need for learning  a policy
+Y = tf.placeholder(shape=[None, output_size], dtype=tf.float32)
+
+# loss function
+loss = tf.reduce_sum(tf.sqaure(Y - Qpred))
+
+train = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+```
+
+```py
+Qs[0, a] = reward + dis * np.max(Qs1)
+
+sess.run(train, feed_dict={X: x, Y: Qs})
+```
