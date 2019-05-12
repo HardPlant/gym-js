@@ -52,7 +52,7 @@ def main():
         tf.global_variables_initializer().run()
 
         for episode in range(max_episodes):
-            e = 1. / ((episode / 10) + 1)
+            e = 1. / ((episode // 10) + 1)
             done = False
             step_count = 0
             
@@ -79,8 +79,9 @@ def main():
                 if step_count > 10000:
                     break
             print ("Episode: {} steps: {}".format(episode, step_count))
+            
             if step_count > 10000:
-                break
+                pass
 
             if episode % 10 == 1:
                 for _ in range(50):

@@ -28,16 +28,16 @@ class DQN:
             # Q pred
             self._Qpred = tf.matmul(layer1, W2)
 
-            # learning policy, target
-            self._Y = tf.placeholder(
-                shape=[None, self.output_size], dtype=tf.float32
-            )
+        # learning policy, target
+        self._Y = tf.placeholder(
+            shape=[None, self.output_size], dtype=tf.float32
+        )
 
-            self._loss = tf.reduce_mean(tf.square(self._Y - self._Qpred))
+        self._loss = tf.reduce_mean(tf.square(self._Y - self._Qpred))
 
-            # learning
-            self._train = tf.train.AdamOptimizer(
-                learning_rate=l_rate).minimize(self._loss)
+        # learning
+        self._train = tf.train.AdamOptimizer(
+            learning_rate=l_rate).minimize(self._loss)
     
     def predict(self, state):
         x = np.reshape(state, [1, self.input_size])
