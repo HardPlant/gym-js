@@ -58,19 +58,8 @@ with tf.Session() as sess:
         else:
             a = np.argmax(Qs)
 
-        # e - greedy
-        # if np.random.rand(1) < e:
-        #     action = env.action_space.sample()
-        # else:
-        #     action = rargmax(Q[state, :])
-
-        ## OR
-
-        # decaying
-        action = np.argmax(Q[state, :] + np.random.randn(1, env.action_space.n) / ( i + 1))
-        
-        #state, reward, done, info
-        new_state, reward, done, _ = env.step(action)
+        # step
+        s1, reward, done, _ = env.step(a)
 
         # discounted future reward
         dis = 0.99
