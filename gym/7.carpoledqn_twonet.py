@@ -48,7 +48,8 @@ def main():
     replay_buffer = deque()
 
     with tf.Session() as sess:
-        mainDQN = dqn.DQN(sess, input_size, output_size)
+        mainDQN = dqn.DQN(sess, input_size, output_size, name="main")
+        targetDQN = dqn.DQN(sess, input_size, output_size, name="target")
         tf.global_variables_initializer().run()
 
         for episode in range(max_episodes):
