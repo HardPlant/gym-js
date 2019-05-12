@@ -82,9 +82,14 @@ def main():
             if step_count > 10000:
                 break
 
-        if episode % 10 == 1:
-            for _ in range(50):
-                # minibatch
-                minibatch = random.sample(replay_buffer, 10)
-                loss, _ = simple_replay_train(mainDQN, minibatch)
-                
+            if episode % 10 == 1:
+                for _ in range(50):
+                    # minibatch
+                    minibatch = random.sample(replay_buffer, 10)
+                    loss, _ = simple_replay_train(mainDQN, minibatch)
+                print("loss: ", loss)
+    
+        bot_play(mainDQN)
+
+if __name__ == "__main__":
+    main()
