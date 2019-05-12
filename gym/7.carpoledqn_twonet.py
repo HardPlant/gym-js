@@ -14,8 +14,8 @@ dis = 0.9
 REPLAY_MEMORY = 50000
 
 def simple_replay_train(DQN, train_batch):
-    x_stack = np.empty(0).reshape(0, DQN.input_size)
-    y_stack = np.empty(0).reshape(0, DQN.output_size)
+    x_stack = np.empty(0).reshape(0, input_size)
+    y_stack = np.empty(0).reshape(0, output_size)
 
     for state, action, reward, next_state, done in train_batch:
         Q = DQN.predict(state) # return act
@@ -31,8 +31,8 @@ def simple_replay_train(DQN, train_batch):
     return DQN.update(x_stack, y_stack)
 
 def replay_train(mainDQN, targetDQN, train_batch):
-    x_stack = np.empty(0).reshape(0, mainDQN.input_size)
-    y_stack = np.empty(0).reshape(0, mainDQN.output_size)
+    x_stack = np.empty(0).reshape(0, input_size)
+    y_stack = np.empty(0).reshape(0, output_size)
 
     for state, action, reward, next_state, done in train_batch:
         Q = mainDQN.predict(state) # return act
@@ -40,7 +40,7 @@ def replay_train(mainDQN, targetDQN, train_batch):
         if done:
             Q[0, action] = reward
         else:
-            Q[0, action] = reward + dis * np.max(targetDQN.predict(next_state))
+            Q[0, action] = reward + (dis * np.max(targetDQN.predict(next_state)))
         
         y_stack = np.vstack([y_stack, Q])
         x_stack = np.vstack([x_stack, state])
