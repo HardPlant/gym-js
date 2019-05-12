@@ -14,7 +14,7 @@ def rargmax(vector):
     return pr.choice(indices)
 
 def one_hot(x):
-    return np.identify(16)[x:x + 1]
+    return np.identity(16)[x:x + 1]
 
 register(
     id="FrozenLake-v3",
@@ -30,7 +30,7 @@ learning_rate = 0.1
 
 ## make network
 X = tf.placeholder(shape=[1, input_size], dtype=tf.float32)
-W = tf.Variable(tf.random_uniform([input_size, output_size, 0, 0.01]))
+W = tf.Variable(tf.random_uniform([input_size, output_size], 0, 0.01))
 Qpred = tf.matmul(X, W)
 Y = tf.placeholder(shape=[1, output_size], dtype=tf.float32)
 
@@ -40,6 +40,8 @@ train = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(
 # 모든 결과의 저장
 rList = []
 num_episodes = 2000
+
+init = tf.global_variables_initializer()
 
 with tf.Session() as sess:
     sess.run(init)
